@@ -16,7 +16,7 @@
 
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="/documentation/overview/start/">
+                <a class="navbar-link" href="#">
                     1ª parte
                 </a>
                 <div class="navbar-dropdown is-boxed">
@@ -26,10 +26,10 @@
                     <a class="navbar-item" href="12.php">
                         1/3 de Simpson Repetida
                     </a>
-                    <a class="navbar-item" href="/<?= $_SERVER['SERVER_NAME'] ?>/method/1/3/">
+                    <a class="navbar-item" href="13.php">
                         3/8 de Simpson Repetida
                     </a>
-                    <a class="navbar-item" href="/<?= $_SERVER['SERVER_NAME'] ?>/method/1//">
+                    <a class="navbar-item" href="14.php">
                         Newton-Cotes para n = 4
                     </a>
                     <hr class="navbar-divider">

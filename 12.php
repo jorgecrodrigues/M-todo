@@ -141,7 +141,7 @@ function mod($num)
                 <?php $h = ($b - $a) / $m; ?>
                 <!-- Obtém os as funções -->
                 <?php $fn = $_GET['fn']; // Função ?>
-                <?php $dd = $_GET['dd']; // Derivada segunda ?>
+                <?php $dd = $_GET['dd']; // Derivada quarta ?>
                 <!-- O valor de h -->
                 O valor de H: <b class="has-text-success"><?= $h ?></b>
                 <br/>
@@ -156,7 +156,7 @@ function mod($num)
                 <br/>
                 <br/>
                 <h4 class="is-size-4">Interações:</h4>
-                <table class="table is-hoverable">
+                <table class="table is-hoverable is-fullwidth">
                     <thead>
                     <tr>
                         <th>x</th>
@@ -177,6 +177,11 @@ function mod($num)
                             <?php $v = 1 ?>
                         <?php endif; ?>
                         <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
+                        <tr>
+                            <td><?= $i ?></td>
+                            <td><?= $v ?> * <?= str_replace("x", $i, $fn) ?></td>
+                            <td><?= $Math->evaluate(str_replace("x", $i, $fn)) ?></td>
+                        </tr>
                     <?php endfor; ?>
                     <tr>
                         <!-- O valor numérico da integral calculada segundo a regra 1/3 de Simpson repetida será: -->
@@ -188,7 +193,7 @@ function mod($num)
             </div>
             <div class="column">
                 <h4 class="is-size-4">Estimativa de erro:</h4>
-                <table class="table is-hoverable">
+                <table class="table is-hoverable is-fullwidth">
                     <thead>
                     <tr>
                         <th>x</th>
@@ -209,13 +214,13 @@ function mod($num)
                     <?php endfor; ?>
                     <tr>
                         <!-- Estimativa para o erro na regra do 1/3 de Simpson repetida será: -->
-                        <?php $et = (pow(($b - $a), 5) / (2880 * pow($n, 4))) * mod(max($max)); ?>
+                        <?php $et = (pow(($b - $a), 5) / (180 * pow($n, 4))) * mod(max($max)); ?>
                         <th colspan="2">E(t): <?= $et ?></th>
                     </tr>
                     <tr>
                         <td colspan="2">
                             O número de subdivisões para o erro ser menor que <?= $error ?> é:
-                            <?= round(sqrt((pow($b - $a, 5) / (2880 * $error)) * mod(max($max)))); ?>
+                            <?= round(sqrt((pow($b - $a, 5) / (180 * $error)) * mod(max($max)))); ?>
                         </td>
                     </tr>
                     </tbody>
@@ -239,7 +244,7 @@ function mod($num)
         <?php $dd = $_GET['dd']; // Derivada segunda ?>
         <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
         <?php $error = $Math->evaluate('1/' . $_GET['error']) ?>
-        <table class="table is-hoverable">
+        <table class="table is-hoverable is-fullwidth">
             <thead>
             <tr>
                 <th>N</th>
@@ -250,8 +255,10 @@ function mod($num)
             <tbody>
             <?php $c = 0; ?>
             <?php do { ?>
+                <!-- n=m/2 é a metade de subdivisões do intervalo [a,b] -->
+                <?php $n = round($m / 2); ?>
                 <!-- Faz o cálculo de h sendo (b - a) / n -->
-                <?php $h = ($b - $a) / $m ?>
+                <?php $h = ($b - $a) / $m; ?>
                 <tr>
                     <!-- Calcula o valor IT -->
                     <!-- O somatório -->
@@ -274,14 +281,14 @@ function mod($num)
                     <?php for ($i = $a; $i <= $b; $i = $i + 1): ?>
                         <?php array_push($max, $Math->evaluate(str_replace("x", $i, $dd))); ?>
                     <?php endfor; ?>
-                    <?php $et = (pow(($b - $a), 5) / (2880 * pow($n, 4))) * mod(max($max)); ?>
+                    <?php $et = (pow(($b - $a), 5) / (180 * pow($n, 4))) * mod(max($max)); ?>
                     <?php $m++ ?>
                     <td><?= $m ?></td>
                     <td><?= $it ?></td>
                     <td><?= $et ?></td>
                 </tr>
                 <!-- Limite de interações -->
-                <?php if ($c === 500): ?>
+                <?php if ($c === 1000): ?>
                     <?php break; ?>
                 <?php endif; ?>
                 <?php $c++; ?>
