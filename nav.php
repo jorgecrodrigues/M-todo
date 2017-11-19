@@ -23,7 +23,7 @@
                     <a class="navbar-item" href="11.php">
                         Regra do Trapézio Repetida
                     </a>
-                    <a class="navbar-item" href="/<?= $_SERVER['SERVER_NAME'] ?>/method/1/2/">
+                    <a class="navbar-item" href="12.php">
                         1/3 de Simpson Repetida
                     </a>
                     <a class="navbar-item" href="/<?= $_SERVER['SERVER_NAME'] ?>/method/1/3/">
@@ -33,12 +33,6 @@
                         Newton-Cotes para n = 4
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="https://bulma.io/documentation/elements/box/">
-                        Elements
-                    </a>
-                    <a class="navbar-item is-active" href="https://bulma.io/documentation/components/breadcrumb/">
-                        Components
-                    </a>
                 </div>
             </div>
         </div>
