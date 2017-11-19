@@ -40,7 +40,7 @@
             <div class="navbar-item">
                 <div class="field is-grouped">
                     <p class="control">
-                        <a class="bd-tw-button button" href="#">
+                        <a class="bd-tw-button button" href="https://github.com/jorgecrodrigues/metodos">
                             <span class="icon">
                                 <i class="fa fa-github"></i>
                             </span>
