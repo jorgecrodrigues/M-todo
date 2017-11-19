@@ -129,7 +129,7 @@ function mod($num)
     <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
     <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['n']) && isset($_GET['fn']) && isset($_GET['dd']) && isset($_GET['error'])): ?>
         <div class="columns">
-            <div class="column">
+            <div class="column is-4">
                 <h4 class="is-size-4"></h4>
                 <!-- Converte o valores de a, b, e n para inteiros -->
                 <?php $a = (int)$_GET['a']; ?>
@@ -140,15 +140,20 @@ function mod($num)
                 <!-- Obtém os as funções -->
                 <?php $fn = $_GET['fn']; // Função ?>
                 <?php $dd = $_GET['dd']; // Derivada segunda ?>
+                <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
+                <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
                 O valor de H: <b class="has-text-success"><?= $h ?></b>
                 <br/>
                 <!-- A função. -->
                 A função: <b class="has-text-success"><?= $fn; ?></b>
                 <br/>
-                <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
-                <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
-            </div>
-            <div class="column">
+                <!-- A derivada segunda da função. -->
+                Derivada segunda: <b class="has-text-success"><?= $dd; ?></b>
+                <br/>
+                <!-- O erro -->
+                Erro: <b class="has-text-danger"><?= $error; ?></b>
+                <br/>
+                <br/>
                 <h4 class="is-size-4">Interações:</h4>
                 <table class="table is-hoverable">
                     <thead>
@@ -164,11 +169,11 @@ function mod($num)
                     <?php for ($i = $a; $i <= $b; $i = $i + $h): ?>
                         <!-- ATENÇÃO! Para ( X0 < Xi > Xn ) multiplicar por 2. -->
                         <?php $v = $i > $a && $i < $b - $h ? 2 : 1 ?>
-                        <tr>
-                            <td><?= $i ?></td>
-                            <td><?= $v; ?> * <?= (str_replace("x", $i, $fn)); ?></td>
-                            <td><?= $v * $Math->evaluate(str_replace("x", $i, $fn)); ?></td>
-                        </tr>
+                        <!--<tr>
+                            <td><? /*= $i */ ?></td>
+                            <td><? /*= $v; */ ?> * <? /*= (str_replace("x", $i, $fn)); */ ?></td>
+                            <td><? /*= $v * $Math->evaluate(str_replace("x", $i, $fn)); */ ?></td>
+                        </tr>-->
                         <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
                     <?php endfor; ?>
                     <tr>
@@ -215,6 +220,58 @@ function mod($num)
                 </table>
             </div>
         </div>
+    <?php endif; ?>
+    <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
+    <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['n']) && isset($_GET['fn']) && isset($_GET['dd']) && isset($_GET['error'])): ?>
+        <!-- Converte o valores de a, b, e n para inteiros -->
+        <?php $a = (int)$_GET['a'] ?>
+        <?php $b = (int)$_GET['b'] ?>
+        <?php $n = (int)$_GET['n'] ?>
+        <!-- Obtém os as funções -->
+        <?php $fn = $_GET['fn'] ?>
+        <?php $dd = $_GET['dd'] ?>
+        <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
+        <?php $error = $Math->evaluate('1/' . $_GET['error']) ?>
+        <table class="table is-hoverable">
+            <thead>
+            <tr>
+                <th>N</th>
+                <th>IT</th>
+                <th>ET</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php do { ?>
+                <!-- Faz o cálculo de h sendo (b - a) / n -->
+                <?php $h = ($b - $a) / $n ?>
+                <tr>
+                    <!-- Calcula o valor IT -->
+                    <!-- O somatório -->
+                    <?php $sum = 0; ?>
+                    <?php for ($i = $a; $i <= $b; $i = $i + $h): ?>
+                        <!-- ATENÇÃO! Para ( X0 < Xi > Xn ) multiplicar por 2. -->
+                        <?php $v = $i > $a && $i < $b - $h ? 2 : 1 ?>
+                        <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
+                    <?php endfor; ?>
+                    <?php $it = ($h / 2) * $sum ?>
+                    <!-- Calcula o valor ET -->
+                    <?php $max = array(); ?>
+                    <?php for ($i = $a; $i <= $b; $i = $i + 1): ?>
+                        <?php array_push($max, $Math->evaluate(str_replace("x", $i, $dd))); ?>
+                    <?php endfor; ?>
+                    <?php $et = (pow(($b - $a), 3) / (12 * pow($n, 2))) * mod(max($max)); ?>
+                    <?php $n++ ?>
+                    <td><?= $n ?></td>
+                    <td><?= $it ?></td>
+                    <td><?= $et ?></td>
+                </tr>
+                <!-- Limite de interações -->
+                <?php if ($n === 1000): ?>
+                    <?php break; ?>
+                <?php endif; ?>
+            <?php } while ($et > $error); ?>
+            </tbody>
+        </table>
     <?php endif; ?>
 </div>
 </body>

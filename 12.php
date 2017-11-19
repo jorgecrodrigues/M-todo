@@ -153,8 +153,8 @@ function mod($num)
                 <br/>
                 <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
                 <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
-            </div>
-            <div class="column">
+                <br/>
+                <br/>
                 <h4 class="is-size-4">Interações:</h4>
                 <table class="table is-hoverable">
                     <thead>
@@ -176,11 +176,6 @@ function mod($num)
                         <?php else: ?>
                             <?php $v = 1 ?>
                         <?php endif; ?>
-                        <tr>
-                            <td><?= $i ?></td>
-                            <td><?= $v; ?> * <?= (str_replace("x", $i, $fn)); ?></td>
-                            <td><?= $v * $Math->evaluate(str_replace("x", $i, $fn)); ?></td>
-                        </tr>
                         <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
                     <?php endfor; ?>
                     <tr>
@@ -227,6 +222,72 @@ function mod($num)
                 </table>
             </div>
         </div>
+    <?php endif; ?>
+
+    <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
+    <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['m']) && isset($_GET['fn']) && isset($_GET['dd']) && isset($_GET['error'])): ?>
+        <!-- Converte o valores de a, b, e n para inteiros -->
+        <?php $a = (int)$_GET['a']; ?>
+        <?php $b = (int)$_GET['b']; ?>
+        <?php $m = (int)$_GET['m']; ?>
+        <!-- n=m/2 é a metade de subdivisões do intervalo [a,b] -->
+        <?php $n = round($m / 2); ?>
+        <!-- Faz o cálculo de h sendo (b - a) / n -->
+        <?php $h = ($b - $a) / $m; ?>
+        <!-- Obtém os as funções -->
+        <?php $fn = $_GET['fn']; // Função ?>
+        <?php $dd = $_GET['dd']; // Derivada segunda ?>
+        <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
+        <?php $error = $Math->evaluate('1/' . $_GET['error']) ?>
+        <table class="table is-hoverable">
+            <thead>
+            <tr>
+                <th>N</th>
+                <th>IT</th>
+                <th>ET</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $c = 0; ?>
+            <?php do { ?>
+                <!-- Faz o cálculo de h sendo (b - a) / n -->
+                <?php $h = ($b - $a) / $m ?>
+                <tr>
+                    <!-- Calcula o valor IT -->
+                    <!-- O somatório -->
+                    <?php $sum = 0; ?>
+                    <?php $index = 0; ?>
+                    <?php for ($i = $a; $i <= $b; $i = $i + $h): ?>
+                        <!-- ATENÇÃO! Para ( X0 < Xi > Xn ) multiplicar por 2 se par ou 4 se ímpar. -->
+                        <?php if ($v = $i > $a && $i < $b - $h): ?>
+                            <?php $index = $index + 1 ?>
+                            <?php $v = $index % 2 == 0 ? 2 : 4 ?>
+                        <?php else: ?>
+                            <?php $v = 1 ?>
+                        <?php endif; ?>
+                        <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
+                    <?php endfor; ?>
+                    <!-- O valor numérico da integral calculada segundo a regra 1/3 de Simpson repetida será: -->
+                    <?php $it = ($h / 3) * $sum ?>
+                    <!-- Calcula o valor ET -->
+                    <?php $max = array(); ?>
+                    <?php for ($i = $a; $i <= $b; $i = $i + 1): ?>
+                        <?php array_push($max, $Math->evaluate(str_replace("x", $i, $dd))); ?>
+                    <?php endfor; ?>
+                    <?php $et = (pow(($b - $a), 5) / (2880 * pow($n, 4))) * mod(max($max)); ?>
+                    <?php $m++ ?>
+                    <td><?= $m ?></td>
+                    <td><?= $it ?></td>
+                    <td><?= $et ?></td>
+                </tr>
+                <!-- Limite de interações -->
+                <?php if ($c === 500): ?>
+                    <?php break; ?>
+                <?php endif; ?>
+                <?php $c++; ?>
+            <?php } while ($et > $error); ?>
+            </tbody>
+        </table>
     <?php endif; ?>
 </div>
 </body>
