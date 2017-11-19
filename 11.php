@@ -126,8 +126,8 @@ function mod($num)
     </form>
     <br/>
     <br/>
-    <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação -->
-    <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['n']) && isset($_GET['fn']) && isset($_GET['error'])): ?>
+    <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
+    <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['n']) && isset($_GET['fn']) && isset($_GET['dd']) && isset($_GET['error'])): ?>
         <div class="columns">
             <div class="column">
                 <h4 class="is-size-4"></h4>
@@ -137,18 +137,16 @@ function mod($num)
                 <?php $n = (int)$_GET['n']; ?>
                 <!-- Faz o cálculo de h sendo (b - a) / n -->
                 <?php $h = ($b - $a) / $n; ?>
+                <!-- Obtém os as funções -->
+                <?php $fn = $_GET['fn']; // Função ?>
+                <?php $dd = $_GET['dd']; // Derivada segunda ?>
                 O valor de H: <b class="has-text-success"><?= $h ?></b>
                 <br/>
-                <!-- Obtem o função do campo do formulário. -->
-                <?php if (isset($_GET['fn'])): ?>
-                    A função: <b class="has-text-success"><?= $_GET['fn']; ?></b>
-                <?php endif; ?>
+                <!-- A função. -->
+                A função: <b class="has-text-success"><?= $fn; ?></b>
                 <br/>
-                <?php if (isset($_GET['error'])): ?>
-                    <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
-                    <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
-                    O erro: <b class="has-text-danger"><?= $error ?></b>
-                <?php endif; ?>
+                <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
+                <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
             </div>
             <div class="column">
                 <h4 class="is-size-4">Interações:</h4>
@@ -168,13 +166,15 @@ function mod($num)
                         <?php $v = $i > $a && $i < $b - $h ? 2 : 1 ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= (str_replace("x", $i, $_GET['fn'])); ?></td>
-                            <td><?= $v * $Math->evaluate(str_replace("x", $i, $_GET['fn'])); ?></td>
+                            <td><?= (str_replace("x", $i, $fn)); ?></td>
+                            <td><?= $v * $Math->evaluate(str_replace("x", $i, $fn)); ?></td>
                         </tr>
-                        <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $_GET['fn']))); ?>
+                        <?php $sum = $sum + ($v * $Math->evaluate(str_replace("x", $i, $fn))); ?>
                     <?php endfor; ?>
                     <tr>
-                        <th colspan="3">I(t): <?= ($h / 2) * $sum ?></th>
+                        <!-- O valor numérico da integral calculada segundo a regra do trapézio repetida será: -->
+                        <?php $it = ($h / 2) * $sum ?>
+                        <th colspan="3">I(t): <?= $it ?></th>
                     </tr>
                     </tbody>
                 </table>
@@ -191,17 +191,25 @@ function mod($num)
                     <tbody>
                     <?php $max = array(); ?>
                     <?php for ($i = $a; $i <= $b; $i = $i + 1): ?>
-                        <?php array_push($max, $Math->evaluate(str_replace("x", $i, $_GET['dd']))); ?>
+                        <?php array_push($max, $Math->evaluate(str_replace("x", $i, $dd))); ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td>
-                                <?= (str_replace("x", $i, $_GET['dd'])); ?> =
-                                <?= $Math->evaluate(str_replace("x", $i, $_GET['dd'])); ?>
+                                <?= (str_replace("x", $i, $dd)); ?> =
+                                <?= $Math->evaluate(str_replace("x", $i, $dd)); ?>
                             </td>
                         </tr>
                     <?php endfor; ?>
                     <tr>
-                        <th colspan="2">E(t): <?= (pow(mod(max($max)), 3) / 12) * mod(max($max)); ?></th>
+                        <!-- Estimativa para o erro na regra do trapézio repetida será: -->
+                        <?php $et = (pow(mod(max($max)), 3) / (12 * pow($n, 2))) * mod(max($max)); ?>
+                        <th colspan="2">E(t): <?= $et ?></th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            O número de subdivisões para que o erro ser menor do que <?= $error ?> pode é:
+                            <?= round(sqrt((pow(mod(max($max)), 3) / (12 * $error)) * mod(max($max)))); ?>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
