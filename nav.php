@@ -15,6 +15,7 @@
             <a class="navbar-item" href="https://bulma.io/">
 
             </a>
+            <!-- 1ª Parte -->
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
                     1ª parte
@@ -31,6 +32,27 @@
                     </a>
                     <a class="navbar-item" href="14.php">
                         Newton-Cotes para n = 4
+                    </a>
+                    <hr class="navbar-divider">
+                </div>
+            </div>
+            <!-- 2ª Parte -->
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="#">
+                    2ª parte
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="21.php">
+                        Método da bisseção
+                    </a>
+                    <a class="navbar-item" href="12.php">
+                        --- --- --- ---
+                    </a>
+                    <a class="navbar-item" href="13.php">
+                        --- --- --- ---
+                    </a>
+                    <a class="navbar-item" href="14.php">
+                        --- --- --- ---
                     </a>
                     <hr class="navbar-divider">
                 </div>
