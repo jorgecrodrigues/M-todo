@@ -143,8 +143,8 @@ function mod($num)
                     </thead>
                     <tbody>
                     <!-- Máximo de interações -->
-                    <?php $max = 10 ?>
-                    <?php while ($max): ?>
+                    <?php $max = 1000 ?>
+                    <?php do { ?>
                         <!-- Decrenta o valor, máximo de interações -->
                         <?php $max-- ?>
                         <!-- O valor de X, sendo, de acordo com a fórmula, a + b / 2 -->
@@ -163,7 +163,7 @@ function mod($num)
                         } else {
                             $b = $x;
                         } ?>
-                    <?php endwhile; ?>
+                    <?php } while ($max and abs($fx) >= $error) ?>
                     </tbody>
                 </table>
             </div>
