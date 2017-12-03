@@ -45,8 +45,8 @@
                     <a class="navbar-item" href="21_metodo_da_bissecao.php">
                         Método da bisseção
                     </a>
-                    <a class="navbar-item" href="12.php">
-                        --- --- --- ---
+                    <a class="navbar-item" href="22_metodo_da_posicao_falsa.php">
+                        Método da posição falsa
                     </a>
                     <a class="navbar-item" href="13.php">
                         --- --- --- ---
