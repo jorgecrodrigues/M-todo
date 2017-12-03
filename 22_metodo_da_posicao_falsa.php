@@ -59,7 +59,7 @@ function sign($number)
                 <div class="field">
                     <label class="label">Valor de (A):</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="text" name="a" value="1" placeholder="Ex: 1" required>
+                        <input class="input is-success" type="text" name="a" value="2" placeholder="Ex: 0" required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
                     </div>
@@ -70,7 +70,7 @@ function sign($number)
                 <div class="field">
                     <label class="label">Valor de (B):</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="text" name="b" value="2" placeholder="Ex: 2" required>
+                        <input class="input is-success" type="text" name="b" value="0" placeholder="Ex: 0" required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
                     </div>
@@ -84,7 +84,7 @@ function sign($number)
                 <div class="field">
                     <label class="label">A função:</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-warning" type="text" name="fn" value="x^3-x-2" placeholder="x^3-x-2"
+                        <input class="input is-warning" type="text" name="fn" value="x^2+7*x-6" placeholder="x^2+7*x-6"
                                required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
@@ -119,14 +119,13 @@ function sign($number)
         <div class="columns">
             <div class="column is-3">
                 <h4 class="is-size-4"></h4>
-                <!-- Converte o valores de a, b, e n para inteiros -->
+                <!-- Converte o valores para inteiros -->
                 <?php $a = (float)$_GET['a']; ?>
                 <?php $b = (float)$_GET['b']; ?>
                 <!-- Obtém os as funções -->
                 <?php $fn = $_GET['fn']; // Função ?>
                 <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
                 <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
-
                 <!-- O valor de A -->
                 O valor de A: <b class="has-text-success"><?= $a; ?></b>
                 <br/>
