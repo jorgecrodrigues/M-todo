@@ -50,16 +50,16 @@ function sign($number)
 <?php include_once "nav.php"; ?>
 
 <div class="container">
-    <h2 class="is-size-2">Método da posição falsa</h2>
+    <h2 class="is-size-2">Método de Newton</h2>
     <br/>
     <br/>
     <form>
         <div class="columns">
             <div class="column">
                 <div class="field">
-                    <label class="label">Valor de (A):</label>
+                    <label class="label">Valor de (X):</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="text" name="a" value="1" placeholder="Ex: 1" required>
+                        <input class="input is-success" type="text" name="x" value="2" placeholder="Ex: 2" required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
                     </div>
@@ -68,23 +68,24 @@ function sign($number)
             </div>
             <div class="column">
                 <div class="field">
-                    <label class="label">Valor de (B):</label>
+                    <label class="label">A função:</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="text" name="b" value="2" placeholder="Ex: 2" required>
+                        <input class="input is-warning" type="text" name="fn" value="x^2+7*x-6" placeholder="x^2+7*x-6"
+                               required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
                     </div>
-                    <p class="help is-success">Obrigatório</p>
+                    <p class="help is-warning">Obrigatório</p>
                 </div>
             </div>
         </div>
 
         <div class="columns">
-            <div class="column is-7">
+            <div class="column">
                 <div class="field">
-                    <label class="label">A função:</label>
+                    <label class="label">Derivada da função:</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-warning" type="text" name="fn" value="x^3-x-2" placeholder="x^3-x-2"
+                        <input class="input is-warning" type="text" name="dd" value="2*x+7" placeholder="2*x+7"
                                required>
                         <span class="icon is-small is-left"><i class="fa fa-long-arrow-right"></i></span>
                         <span class="icon is-small is-right"></span>
@@ -115,34 +116,30 @@ function sign($number)
     <br/>
     <br/>
     <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
-    <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['fn']) && isset($_GET['error'])): ?>
+    <?php if ($_GET && isset($_GET['x']) && isset($_GET['fn']) && isset($_GET['dd']) && isset($_GET['error'])): ?>
         <div class="columns">
             <div class="column is-3">
                 <h4 class="is-size-4"></h4>
-                <!-- Converte o valores de a, b, e n para inteiros -->
-                <?php $a = (float)$_GET['a']; ?>
-                <?php $b = (float)$_GET['b']; ?>
-                <!-- Obtém os as funções -->
+                <!-- Converte o valores para inteiros -->
+                <?php $x = (float)$_GET['x']; ?>
+                <!-- Obtém a funções -->
                 <?php $fn = $_GET['fn']; // Função ?>
+                <!-- Obtém a derivada da funções -->
+                <?php $dd = $_GET['dd']; // Derivada da função ?>
                 <!-- Obtém o valor para o erro, sedo inversamente proporcional -->
                 <?php $error = $Math->evaluate('1/' . $_GET['error']); ?>
-
-                <!-- O valor de A -->
-                O valor de A: <b class="has-text-success"><?= $a; ?></b>
-                <br/>
                 <!-- O valor de B -->
-                O valor de B: <b class="has-text-success"><?= $b; ?></b>
+                O valor de X: <b class="has-text-success"><?= $x; ?></b>
                 <br/>
                 <!-- A função. -->
                 A função: <b class="has-text-success"><?= $fn; ?></b>
                 <br/>
+                <!-- A derivada da função. -->
+                A derivada da função: <b class="has-text-success"><?= $dd; ?></b>
+                <br/>
                 <!-- O erro -->
                 Erro: <b class="has-text-danger"><?= $error; ?></b>
                 <br/>
-                <!-- f(a) e f(b) tem sinais opostos? -->
-                <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
-                <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
-                f(a) e f(b) tem sinais opostos? <b class="has-text-black"><?php echo ($fa * $fb) < 0 ? "Sim" : "Não" ?></b>
                 <br/>
             </div>
             <div class="column">
@@ -150,40 +147,27 @@ function sign($number)
                 <table class="table is-hoverable is-fullwidth">
                     <thead>
                     <tr>
-                        <th>A</th>
-                        <th>B</th>
                         <th>X</th>
-                        <th>f(a)</th>
-                        <th>f(b)</th>
                         <th>f(x)</th>
+                        <th>f'(x)</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- Máximo de interações -->
-                    <?php $max = 1000 ?>
+                    <?php $max = 1000; ?>
                     <?php do { ?>
                         <!-- Decrenta o valor, máximo de interações -->
                         <?php $max-- ?>
-                        <!-- O valor de X, sendo, de acordo com a fórmula, a + b / 2 -->
-                        <?php $x = (($a * $fb) - ($b * $fa)) / ($fb - $fa) ?>
                         <!-- O resultado da função -->
-                        <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
-                        <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
                         <?php $fx = $Math->evaluate(str_replace("x", $x, $fn)) ?>
+                        <?php $fdd = $Math->evaluate(str_replace("x", $x, $dd)) ?>
                         <tr>
-                            <td><?= $a ?></td>
-                            <td><?= $b ?></td>
                             <td><?= $x ?></td>
                             <td><?= $fx ?></td>
-                            <td><?= $fa ?></td>
-                            <td><?= $fb ?></td>
+                            <td><?= $fdd ?></td>
                         </tr>
-                        <!-- Se o resultado da função for menor que 0, então a = f(x) senão b = f(x) -->
-                        <?php if (sign($fx) === sign($fa)) {
-                            $a = $x;
-                        } else {
-                            $b = $x;
-                        } ?>
+                        <!--  -->
+                        <?php $x = $x - ($fx / $fdd) ?>
                     <?php } while ($max and abs($fx) >= $error) ?>
                     </tbody>
                 </table>

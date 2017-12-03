@@ -48,8 +48,8 @@
                     <a class="navbar-item" href="22_metodo_da_posicao_falsa.php">
                         Método da posição falsa
                     </a>
-                    <a class="navbar-item" href="13.php">
-                        --- --- --- ---
+                    <a class="navbar-item" href="23_metodo_de_newton.php">
+                        Método de Newton
                     </a>
                     <a class="navbar-item" href="14.php">
                         --- --- --- ---
