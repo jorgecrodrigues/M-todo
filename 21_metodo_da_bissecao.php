@@ -21,6 +21,17 @@ function mod($num)
     return $num < 0 ? $num * (-1) : $num;
 }
 
+/**
+ * Vericica o sinal de um número;
+ *
+ * @param $number
+ * @return int
+ */
+function sign($number)
+{
+    return ($number > 0) ? 1 : (($number < 0) ? -1 : 0);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +117,7 @@ function mod($num)
     <!-- Verifica se todos os parêmetros necessários estão presentes. Obs: Não é feito nenhum tipo de validação dos valores. -->
     <?php if ($_GET && isset($_GET['a']) && isset($_GET['b']) && isset($_GET['fn']) && isset($_GET['error'])): ?>
         <div class="columns">
-            <div class="column is-4">
+            <div class="column is-3">
                 <h4 class="is-size-4"></h4>
                 <!-- Converte o valores de a, b, e n para inteiros -->
                 <?php $a = (int)$_GET['a']; ?>
@@ -128,6 +139,10 @@ function mod($num)
                 <!-- O erro -->
                 Erro: <b class="has-text-danger"><?= $error; ?></b>
                 <br/>
+                <!-- f(a) e f(b) tem sinais opostos? -->
+                <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
+                <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
+                f(a) e f(b) tem sinais opostos? <b class="has-text-black"><?php echo $fa * $fb < 0 ? "Sim" : "Não" ?></b>
                 <br/>
             </div>
             <div class="column">
@@ -138,6 +153,8 @@ function mod($num)
                         <th>A</th>
                         <th>B</th>
                         <th>X</th>
+                        <th>f(a)</th>
+                        <th>f(b)</th>
                         <th>f(x)</th>
                     </tr>
                     </thead>
@@ -150,15 +167,19 @@ function mod($num)
                         <!-- O valor de X, sendo, de acordo com a fórmula, a + b / 2 -->
                         <?php $x = ($a + $b) / 2 ?>
                         <!-- O resultado da função -->
+                        <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
+                        <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
                         <?php $fx = $Math->evaluate(str_replace("x", $x, $fn)) ?>
                         <tr>
                             <td><?= $a ?></td>
                             <td><?= $b ?></td>
                             <td><?= $x ?></td>
+                            <td><?= $fa ?></td>
+                            <td><?= $fb ?></td>
                             <td><?= $fx ?></td>
                         </tr>
                         <!-- Se o resultado da função for menor que 0, então a = f(x) senão b = f(x) -->
-                        <?php if ($fx < 0) {
+                        <?php if (sign($fx) === sign($fa)) {
                             $a = $x;
                         } else {
                             $b = $x;

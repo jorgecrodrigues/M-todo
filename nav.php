@@ -42,7 +42,7 @@
                     2ª parte
                 </a>
                 <div class="navbar-dropdown is-boxed">
-                    <a class="navbar-item" href="21.php">
+                    <a class="navbar-item" href="21_metodo_da_bissecao.php">
                         Método da bisseção
                     </a>
                     <a class="navbar-item" href="12.php">
