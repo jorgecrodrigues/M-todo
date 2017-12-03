@@ -138,10 +138,6 @@ function sign($number)
                 <!-- O erro -->
                 Erro: <b class="has-text-danger"><?= $error; ?></b>
                 <br/>
-                <!-- f(a) e f(b) tem sinais opostos? -->
-                <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
-                <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
-                f(a) e f(b) tem sinais opostos? <b class="has-text-black"><?php echo ($fa * $fb) < 0 ? "Sim" : "Não" ?></b>
                 <br/>
             </div>
             <div class="column">
@@ -163,11 +159,11 @@ function sign($number)
                     <?php do { ?>
                         <!-- Decrenta o valor, máximo de interações -->
                         <?php $max-- ?>
-                        <!-- O valor de X, sendo, de acordo com a fórmula, a + b / 2 -->
-                        <?php $x = (($a * $fb) - ($b * $fa)) / ($fb - $fa) ?>
                         <!-- O resultado da função -->
                         <?php $fa = $Math->evaluate(str_replace("x", $a, $fn)) ?>
                         <?php $fb = $Math->evaluate(str_replace("x", $b, $fn)) ?>
+                        <!-- O valor de X, sendo, de acordo com a fórmula, a * f(b) - b * f(a)/ f(b) - f(a) -->
+                        <?php $x = (($a * $fb) - ($b * $fa)) / ($fb - $fa) ?>
                         <?php $fx = $Math->evaluate(str_replace("x", $x, $fn)) ?>
                         <tr>
                             <td><?= $a ?></td>
@@ -177,6 +173,8 @@ function sign($number)
                             <td><?= $fa ?></td>
                             <td><?= $fb ?></td>
                         </tr>
+                        <!-- O valor de X, sendo, de acordo com a fórmula, a * f(b) - b * f(a)/ f(b) - f(a) -->
+                        <?php $x = (($a * $fb) - ($b * $fa)) / ($fb - $fa) ?>
                         <!-- Se o resultado da função for menor que 0, então a = f(x) senão b = f(x) -->
                         <?php if (sign($fx) === sign($fa)) {
                             $a = $x;
