@@ -57,6 +57,17 @@
                     <hr class="navbar-divider">
                 </div>
             </div>
+            <!-- 3ª Parte -->
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="#">
+                    3ª parte
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="31_interpolacao_de_lagrange.php">
+                        Interpolação de Lagrange
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="navbar-end">
             <div class="navbar-item">

@@ -19,7 +19,7 @@ function url($uri)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Métodos computacionais</title>
-    <!-- Bulma 0.6.1 -->
+    <!-- Bulma  -->
     <link rel="stylesheet" href="bulma-0.6.1/css/bulma.css"/>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>

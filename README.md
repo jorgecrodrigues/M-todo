@@ -1,2 +1,2 @@
-# metodos
+# Métodos
 Algoritmos de métodos computacionais
