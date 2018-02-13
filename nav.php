@@ -66,6 +66,9 @@
                     <a class="navbar-item" href="31_interpolacao_de_lagrange.php">
                         Interpolação de Lagrange
                     </a>
+                    <a class="navbar-item" href="32_forma_de_newton.php">
+                        Forma de Newton
+                    </a>
                 </div>
             </div>
         </div>
