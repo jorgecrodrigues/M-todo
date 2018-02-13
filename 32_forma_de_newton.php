@@ -229,22 +229,23 @@ if ($_POST && isset($_POST['x']) && isset($_POST['x']) && isset($_POST['value'])
         </div>
     </div>
 
+    <?php if ($i): ?>
+        <?php $count = count($deltas) ?>
+        <?php $p = $deltas[0] . " + " ?>
+        <?php for ($ii = 0; $ii < $count; $ii++): ?>
+            <?php if ($ii > 0): ?>
+                <?php for ($xx = 0; $xx < $ii; $xx++): ?>
+                    <?php $p .= "(x - " . $x[$xx] . ")" ?>
+                <?php endfor; ?>
+                <?php $p .= " * " . $deltas[$ii] ?>
+                <?php $p .= $ii < ($count - 1) ? " + " : "" ?>
+            <?php endif; ?>
+        <?php endfor; ?>
 
-    <?php $count = count($deltas) ?>
-    <?php $p = $deltas[0] . " + " ?>
-    <?php for ($ii = 0; $ii < $count; $ii++): ?>
-        <?php if ($ii > 0): ?>
-            <?php for ($xx = 0; $xx < $ii; $xx++): ?>
-                <?php $p .= "(x - " . $x[$xx] . ")" ?>
-            <?php endfor; ?>
-            <?php $p .= " * " . $deltas[$ii] ?>
-            <?php $p .= $ii < ($count - 1) ? " + " : "" ?>
-        <?php endif; ?>
-    <?php endfor; ?>
-
-    <div>P(x) = <?php echo $p ?></div>
-    <?php $calc = str_replace('x', $value, $p) ?>
-    <div>P(x) = <?php echo $calc ?> = <?php echo $Math->evaluate($calc) ?></div>
+        <div>P(x) = <?php echo $p ?></div>
+        <?php $calc = str_replace('x', $value, $p) ?>
+        <div>P(x) = <?php echo $calc ?> = <?php echo $Math->evaluate($calc) ?></div>
+    <?php endif; ?>
     <br/>
     <br/>
 </div>
