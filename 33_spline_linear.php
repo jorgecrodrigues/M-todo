@@ -87,7 +87,7 @@ if ($_POST && isset($_POST['x']) && isset($_POST['x']) && isset($_POST['value'])
 <?php include_once "nav.php"; ?>
 
 <div class="container">
-    <h2 class="is-size-2">Forma de Newton</h2>
+    <h2 class="is-size-2">Spline Linear</h2>
     <br/>
     <br/>
 
@@ -181,73 +181,29 @@ if ($_POST && isset($_POST['x']) && isset($_POST['x']) && isset($_POST['value'])
                 </div>
             </form>
         </div>
+        <!-- Percorre todos os valores de x -->
         <div class="column">
             <?php if ($i): ?>
-                <!-- Delta recebe os valores de f(x) -->
-                <?php $delta = is_array($y) ? $y : []; ?>
-                <!-- A ordem, a cada ordem os valores de x serão adicionados -->
-                <?php $sequence = 1; ?>
-                <!-- // Enquanto delta maior que 1, ainda há conta a se fazer. -->
-                <?php $count = count($delta); ?>
-                <!-- Enquanto... -->
-                <?php while ($count): ?>
-                    <!-- Pega somente os primeiros valores de delta -->
-                    <?php $deltas[] = $delta[0]; ?>
-                    <!-- Percorre todos os valores de delta -->
-                    <div class="columns">
-                        <div class="column is-5 has-text-right"><?php echo $count - 1 ? "Ordem " . $sequence : ""; ?></div>
-                        <div class="column">
-                            <?php for ($ii = 0; $ii < ($count - 1); $ii++): ?>
-                                <div class="columns">
-                                    <?php $tempDelta[$ii] = ($delta[$ii + 1] - $delta[$ii]) / ($x[$ii + $sequence] - $x[$ii]); ?>
-                                    <div class="column has-text-centered">
-                                        <?php echo $delta[$ii + 1] . " - " . $delta[$ii] ?>
-                                        <hr/>
-                                        <?php echo $x[$ii + $sequence] . " - " . $x[$ii] ?>
-                                    </div>
-                                    <div class="column">
-                                        <?php echo $tempDelta[$ii] ?>
-                                    </div>
-                                </div>
-                            <?php endfor; ?>
+            <!-- Delta recebe os valores de (x) -->
+            <?php $x = is_array($x) ? $x : []; ?>
+            <?php $y = is_array($y) ? $y : []; ?>
+            <?php $count = count($x); ?>
+            <div class="columns">
+                <div class="column">
+                    <?php for ($ii = 0; $ii < ($count - 1); $ii++): ?>
+                        <div class="columns">
+                            <!-- Si(x) = f(xi-1) * ((xi - x) / (xi - xi-1)) + f(xi) * ((x - xi-1) / xi - xi-1) -->
+                            <!-- Si(x) = f(xi-1) * ((xi - x) / (xi - xi-1)) + f(xi) * ((x - xi-1) / xi - xi-1) -->
+                            <?php $s[$ii] = $y[$ii] . " * ((" . $x[$ii + 1] . " - x) / (" . $x[$ii + 1] . " - " . $x[$ii] . ")) + " . $y[$ii + 1] . " * ((x -" . $x[$ii] . ") / (" . $x[$ii + 1] . " - " . $x[$ii] . "))" ?>
+                            <div class="column">
+                                S<?php echo $ii + 1 ?>(x) = <?php echo $s[$ii] ?>
+                            </div>
                         </div>
-                    </div>
-                    <br/>
-                    <br/>
-                    <?php
-                    // Delta recebe delta temporario do resultado.
-                    $delta = $tempDelta;
-                    // Faz a contagem do delta.
-                    $count = count($delta);
-                    // Reseta o delta
-                    $tempDelta = [];
-                    // Sobre a ordem
-                    $sequence = $sequence + 1;
-                    ?>
-                <?php endwhile; ?>
-            <?php endif; ?>
+                    <?php endfor; ?>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-
-    <?php if ($i): ?>
-        <?php $count = count($deltas) ?>
-        <?php $p = $deltas[0] . " + " ?>
-        <?php for ($ii = 0; $ii < $count; $ii++): ?>
-            <?php if ($ii > 0): ?>
-                <?php for ($xx = 0; $xx < $ii; $xx++): ?>
-                    <?php $p .= "(x - " . $x[$xx] . ")" ?>
-                <?php endfor; ?>
-                <?php $p .= " * " . $deltas[$ii] ?>
-                <?php $p .= $ii < ($count - 1) ? " + " : "" ?>
-            <?php endif; ?>
-        <?php endfor; ?>
-
-        <div>P(x) = <?php echo $p ?></div>
-        <?php $calc = str_replace('x', $value, $p) ?>
-        <div>P(x) = <?php echo $calc ?> = <?php echo $Math->evaluate($calc) ?></div>
-    <?php endif; ?>
-    <br/>
-    <br/>
-</div>
 </body>
 </html>

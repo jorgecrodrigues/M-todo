@@ -69,6 +69,9 @@
                     <a class="navbar-item" href="32_forma_de_newton.php">
                         Forma de Newton
                     </a>
+                    <a class="navbar-item" href="33_spline_linear.php">
+                        Spline Linear
+                    </a>
                 </div>
             </div>
         </div>
