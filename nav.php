@@ -86,7 +86,7 @@
                     <a class="navbar-item" href="41_eliminacao_de_gauss.php">
                         Eliminação de Gauss
                     </a>
-                    <a class="navbar-item" href="32_forma_de_newton.php">
+                    <a class="navbar-item" href="42_eliminacao_de_gauss_com_pivo_parcial.php">
                         Eliminação de Gauss com Pivô Parcial
                     </a>
                     <a class="navbar-item" href="33_spline_linear.php">
