@@ -72,6 +72,29 @@
                     <a class="navbar-item" href="33_spline_linear.php">
                         Spline Linear
                     </a>
+                    <a class="navbar-item" href="34_interpolacao_trigonometrica.php">
+                        Interpolação trigonométrica
+                    </a>
+                </div>
+            </div>
+            <!-- 4ª Parte -->
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="#">
+                    4ª parte
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="41_eliminacao_de_gauss.php">
+                        Eliminação de Gauss
+                    </a>
+                    <a class="navbar-item" href="32_forma_de_newton.php">
+                        Eliminação de Gauss com Pivô Parcial
+                    </a>
+                    <a class="navbar-item" href="33_spline_linear.php">
+                        Gauss-Jacobi
+                    </a>
+                    <a class="navbar-item" href="34_interpolacao_trigonometrica.php">
+                        Gauss-Seidel
+                    </a>
                 </div>
             </div>
         </div>
