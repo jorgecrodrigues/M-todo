@@ -89,7 +89,7 @@
                     <a class="navbar-item" href="42_eliminacao_de_gauss_com_pivo_parcial.php">
                         Eliminação de Gauss com Pivô Parcial
                     </a>
-                    <a class="navbar-item" href="33_spline_linear.php">
+                    <a class="navbar-item" href="43_gauss_jacobi.php">
                         Gauss-Jacobi
                     </a>
                     <a class="navbar-item" href="34_interpolacao_trigonometrica.php">
